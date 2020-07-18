@@ -1,5 +1,7 @@
 from tkinter import *
-import backend
+from backend import Database
+
+database = Database("bookinventory.db")
 
 
 def get_selected_row(event):
@@ -21,28 +23,28 @@ def get_selected_row(event):
 
 def view_command():
     list1.delete(0, END)
-    for row in backend.view_all():
+    for row in database.view_all():
         list1.insert(END, row)
 
 
 def search_command():
     list1.delete(0, END)
-    for row in backend.search(title_var.get(), author_var.get(), year_var.get(), ISBN_var.get()):
+    for row in database.search(title_var.get(), author_var.get(), year_var.get(), ISBN_var.get()):
         list1.insert(END, row)
 
 
 def insert_command():
-    backend.insert_table(title_var.get(), author_var.get(), year_var.get(), ISBN_var.get())
+    database.insert_table(title_var.get(), author_var.get(), year_var.get(), ISBN_var.get())
     list1.delete(0, END)
     list1.insert(END, (title_var.get(), author_var.get(), year_var.get(), ISBN_var.get()))
 
 
 def delete_command():
-    backend.delete_row(selected_row[0])
+    database.delete_row(selected_row[0])
 
 
 def update_command():
-    backend.update_row(selected_row[0],title_var.get(), author_var.get(), year_var.get(), ISBN_var.get())
+    database.update_row(selected_row[0], title_var.get(), author_var.get(), year_var.get(), ISBN_var.get())
 
 
 window = Tk()
@@ -95,13 +97,13 @@ b2.grid(row=3, column=3)
 b3 = Button(window, text="Add entry", width=12, command=insert_command)
 b3.grid(row=4, column=3)
 
-b4 = Button(window, text="Update selected", width=12,command=update_command)
+b4 = Button(window, text="Update selected", width=12, command=update_command)
 b4.grid(row=5, column=3)
 
 b5 = Button(window, text="Delete selected", width=12, command=delete_command)
 b5.grid(row=6, column=3)
 
-b6 = Button(window, text="Close", width=12,command=window.destroy)
+b6 = Button(window, text="Close", width=12, command=window.destroy)
 b6.grid(row=7, column=3)
 
 window.mainloop()
